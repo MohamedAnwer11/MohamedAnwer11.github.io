@@ -3,95 +3,351 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Mohamed Anwer</title>
+  <title>Mohamed Anwer — Penetration Tester</title>
 
-  <!-- Font Awesome Icons (FREE) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
   <style>
-    body {
-      background: #f3f4f6; /* Light gray background */
-      color: #111827;      /* Dark text */
-      font-family: Arial, sans-serif;
-      text-align: center;
-      padding: 60px 20px;
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
     }
 
-    img {
-      width: 240px;
-      height: 240px;
+    :root {
+      --bg: #0a0a0f;
+      --surface: #111118;
+      --border: rgba(255,255,255,0.07);
+      --accent: #00ff88;
+      --accent-dim: rgba(0,255,136,0.12);
+      --accent-glow: rgba(0,255,136,0.25);
+      --text: #f0f0f0;
+      --muted: #6b7280;
+      --card-bg: rgba(255,255,255,0.03);
+    }
+
+    html, body {
+      height: 100%;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Space Mono', monospace;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* Subtle background grid */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(0,255,136,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,255,136,0.03) 1px, transparent 1px);
+      background-size: 40px 40px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* Radial glow behind card */
+    body::after {
+      content: '';
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, rgba(0,255,136,0.06) 0%, transparent 70%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .card {
+      position: relative;
+      z-index: 1;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 48px 40px 40px;
+      width: 100%;
+      max-width: 400px;
+      text-align: center;
+      box-shadow:
+        0 0 0 1px rgba(0,255,136,0.05),
+        0 40px 80px rgba(0,0,0,0.6),
+        inset 0 1px 0 rgba(255,255,255,0.06);
+      animation: fadeUp 0.7s ease both;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Top accent bar */
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 20%; right: 20%;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--accent), transparent);
+      border-radius: 0 0 4px 4px;
+    }
+
+    /* Terminal tag */
+    .terminal-tag {
+      display: inline-block;
+      font-family: 'Space Mono', monospace;
+      font-size: 11px;
+      color: var(--accent);
+      background: var(--accent-dim);
+      border: 1px solid rgba(0,255,136,0.2);
+      border-radius: 4px;
+      padding: 3px 10px;
+      letter-spacing: 0.08em;
+      margin-bottom: 28px;
+      animation: fadeUp 0.7s ease 0.1s both;
+    }
+
+    /* Avatar */
+    .avatar-wrap {
+      position: relative;
+      display: inline-block;
+      margin-bottom: 24px;
+      animation: fadeUp 0.7s ease 0.2s both;
+    }
+
+    .avatar-ring {
+      position: absolute;
+      inset: -6px;
+      border-radius: 50%;
+      border: 1.5px solid rgba(0,255,136,0.3);
+      animation: spin 12s linear infinite;
+    }
+
+    .avatar-ring::before {
+      content: '';
+      position: absolute;
+      top: -2px; left: 50%;
+      transform: translateX(-50%);
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 10px var(--accent);
+    }
+
+    @keyframes spin {
+      from { transform: rotate(0deg); }
+      to   { transform: rotate(360deg); }
+    }
+
+    .avatar-wrap img {
+      display: block;
+      width: 160px;
+      height: 160px;
       border-radius: 50%;
       object-fit: cover;
-      border: 4px solid #111827; /* Dark border */
-      margin-bottom: 30px;
+      border: 2px solid rgba(255,255,255,0.08);
+      position: relative;
+      z-index: 1;
     }
 
-    h1 {
+    /* Name */
+    .name {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 32px;
+      font-weight: 400;
+      letter-spacing: 0.06em;
+      color: #fff;
       display: flex;
-      justify-content: center;
       align-items: center;
+      justify-content: center;
       gap: 8px;
-      margin-bottom: 5px;
+      margin-bottom: 6px;
+      white-space: nowrap;
+      animation: fadeUp 0.7s ease 0.3s both;
     }
 
-    h1 i {
-      color: #111827; /* Verified icon dark */
-    }
-
-    p {
-      margin-top: 0;
-      color: #6b7280; /* Gray subtitle */
+    .name .verified {
+      color: var(--accent);
       font-size: 18px;
+      filter: drop-shadow(0 0 6px var(--accent));
     }
 
-    a {
+    /* Role */
+    .role {
+      font-size: 12px;
+      color: var(--muted);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin-bottom: 32px;
+      animation: fadeUp 0.7s ease 0.35s both;
+    }
+
+    /* Divider */
+    .divider {
+      height: 1px;
+      background: var(--border);
+      margin-bottom: 28px;
+      animation: fadeUp 0.7s ease 0.4s both;
+    }
+
+    /* Links */
+    .links {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .link-btn {
       display: flex;
       align-items: center;
-      justify-content: center;
-      gap: 10px;
-      margin: 15px auto;
-      width: 220px;
-      padding: 12px;
-      background: #111827; /* Dark button */
-      color: #ffffff;      /* White text */
+      gap: 12px;
+      padding: 14px 20px;
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      color: var(--text);
       text-decoration: none;
-      border-radius: 8px;
-      font-size: 16px;
-      transition: 0.3s;
+      font-family: 'Space Mono', monospace;
+      font-size: 13px;
+      letter-spacing: 0.04em;
+      transition: all 0.25s ease;
+      position: relative;
+      overflow: hidden;
     }
 
-    a:hover {
-      background: #374151; /* Dark gray hover */
-      transform: scale(1.03);
+    .link-btn:nth-child(1) { animation: fadeUp 0.7s ease 0.45s both; }
+    .link-btn:nth-child(2) { animation: fadeUp 0.7s ease 0.5s both; }
+    .link-btn:nth-child(3) { animation: fadeUp 0.7s ease 0.55s both; }
+    .link-btn:nth-child(4) { animation: fadeUp 0.7s ease 0.6s both; }
+
+    .link-btn::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(90deg, var(--accent-dim), transparent);
+      opacity: 0;
+      transition: opacity 0.25s ease;
+    }
+
+    .link-btn:hover {
+      border-color: rgba(0,255,136,0.3);
+      transform: translateX(4px);
+      box-shadow: 0 0 20px var(--accent-glow);
+    }
+
+    .link-btn:hover::before {
+      opacity: 1;
+    }
+
+    .link-btn:hover .icon {
+      color: var(--accent);
+    }
+
+    .icon {
+      width: 18px;
+      text-align: center;
+      color: var(--muted);
+      transition: color 0.25s ease;
+      position: relative;
+      z-index: 1;
+      font-size: 15px;
+    }
+
+    .link-label {
+      flex: 1;
+      text-align: left;
+      position: relative;
+      z-index: 1;
+    }
+
+    .link-arrow {
+      color: var(--muted);
+      font-size: 11px;
+      position: relative;
+      z-index: 1;
+      transition: color 0.25s, transform 0.25s;
+    }
+
+    .link-btn:hover .link-arrow {
+      color: var(--accent);
+      transform: translateX(3px);
+    }
+
+    /* Footer */
+    .footer {
+      margin-top: 32px;
+      font-size: 10px;
+      color: rgba(255,255,255,0.15);
+      letter-spacing: 0.1em;
+      animation: fadeUp 0.7s ease 0.6s both;
+    }
+
+    .footer span {
+      color: var(--accent);
+      opacity: 0.5;
     }
   </style>
 </head>
 <body>
 
-  <!-- Profile Photo -->
-  <img src="./profile.jpg" alt="Mohamed Anwer">
+  <div class="card">
+    <div class="terminal-tag">$ whoami</div>
 
-  <h1>Mohamed Anwer
-    <i class="fas fa-circle-check"></i>
-  </h1>
-  <p>Junior Penetration Tester</p>
+    <div class="avatar-wrap">
+      <div class="avatar-ring"></div>
+      <img src="./profile.jpg" alt="Mohamed Anwer">
+    </div>
 
-  <a href="https://linkedin.com/in/anwer0x11" target="_blank">
-    <i class="fab fa-linkedin"></i> LinkedIn
-  </a>
+    <h1 class="name">
+      Mohamed Anwer
+      <i class="fas fa-circle-check verified"></i>
+    </h1>
+    <p class="role">Junior Penetration Tester</p>
 
-  <a href="https://github.com/mohamedanwer11" target="_blank">
-    <i class="fab fa-github"></i> GitHub
-  </a>
+    <div class="divider"></div>
 
-  <a href="cv.pdf" target="_blank">
-    <i class="fas fa-file-pdf"></i> View CV
-  </a>
+    <div class="links">
+      <a class="link-btn" href="https://linkedin.com/in/anwer0x11" target="_blank">
+        <i class="fab fa-linkedin icon"></i>
+        <span class="link-label">LinkedIn</span>
+        <i class="fas fa-arrow-right link-arrow"></i>
+      </a>
 
-    <a href="https://anwer0x11.notion.site/2690b0845eb4808da906cf23db43147f?v=2690b0845eb48177ab80000cdf1d3024" target="_blank">
-    <i class="fas fa-file-lines"></i> WriteUps 
-  </a>
+      <a class="link-btn" href="https://github.com/mohamedanwer11" target="_blank">
+        <i class="fab fa-github icon"></i>
+        <span class="link-label">GitHub</span>
+        <i class="fas fa-arrow-right link-arrow"></i>
+      </a>
+
+      <a class="link-btn" href="https://medium.com/@anwer0x11" target="_blank">
+        <i class="fab fa-medium icon"></i>
+        <span class="link-label">Medium</span>
+        <i class="fas fa-arrow-right link-arrow"></i>
+      </a>
+
+      <a class="link-btn" href="cv.pdf" target="_blank">
+        <i class="fas fa-file-pdf icon"></i>
+        <span class="link-label">View CV</span>
+        <i class="fas fa-arrow-right link-arrow"></i>
+      </a>
+    </div>
+
+    <div class="footer">
+      <span>//</span> mohamedanwer11.github.io
+    </div>
+  </div>
 
 </body>
 </html>
-
